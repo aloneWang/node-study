@@ -1,0 +1,26 @@
+{
+  "name": "node-study",
+  "version": "1.0.0",
+  "description": "开始学习nodejs.......",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aloneWang/node-study.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aloneWang/node-study/issues"
+  },
+  "homepage": "https://github.com/aloneWang/node-study#readme",
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}

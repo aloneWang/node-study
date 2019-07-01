@@ -18,6 +18,7 @@
   "homepage": "https://github.com/aloneWang/node-study#readme",
   "dependencies": {
     "koa": "^2.7.0",
+    "koa-body": "^4.1.0",
     "koa-router": "^7.4.0"
   },
   "devDependencies": {

@@ -6,9 +6,17 @@ class UsersCtr {
   }
   // 查询id
   findById(ctx){
-    ctx.body = db[ctx.params.id]
+    const id = ctx.params.id
+
+    if(id >= db.length) ctx.throw(401)
+    ctx.body = db[id]
   }
   create(ctx){
+
+    ctx.verifyParams({
+      name: { type: 'string', required: true },
+    });
+
     db.push(ctx.request.body)
     ctx.status = 200
     ctx.body = "添加成功"

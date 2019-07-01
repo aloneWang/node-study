@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const koaBody = require('koa-body');
+const koaPrameter = require('koa-parameter')
 const app = new Koa()
 const routing = require('./routes')
 
@@ -16,7 +17,10 @@ app.use(async ( ctx,next)=>{
     }
   }
 })
-app.use(koaBody())
+
+app
+  .use(koaBody()) // 回去post 请求参数
+  .use(koaPrameter(app)) // 验证参数
 routing(app)
 app.listen(3001)
 console.log("app started in port 3001")

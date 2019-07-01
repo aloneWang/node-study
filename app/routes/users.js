@@ -4,26 +4,14 @@ const Router = require('koa-router')
 const router = new Router({prefix:'/users'})
 
 // db数据
-let db = [{name:'地精'}]
+const {findById, create, delete: del, getAll} = require('../controllers/users.js')
 
-router.get('/', ctx => {
-  ctx.body = db
-})
+router.get('/',getAll)
+router.get('/:id',findById)
 
-router.get('/:id', ctx => {
-  ctx.body = db[ctx.params.id]
-})
+router.post('/', create);
 
-router.post('/', (ctx) => {
-
-	db.push(ctx.request.body);
-	ctx.body = ctx.request.body;
-});
-
-router.delete('/:id', ctx => {
-  db.splice(ctx.params.id,1)
-  ctx.status = 200
-})
+router.delete('/:id', del)
 
 
 module.exports = router

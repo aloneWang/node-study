@@ -22,6 +22,8 @@ class UsersCtr {
     ctx.body = "添加成功"
   }
   delete(ctx){
+    const id = ctx.params.id
+    if(id >= db.length) ctx.throw(412)
     db.splice(ctx.params.id,1)
     ctx.status = 200 
     ctx.body = "删除成功"

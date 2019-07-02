@@ -4,6 +4,19 @@ const koaPrameter = require('koa-parameter')
 const app = new Koa()
 const routing = require('./routes')
 
+const mongoose = require('mongoose')
+
+// 链接数据库
+mongoose.connect(
+  'mongodb://127.0.0.1:27017/zhihu' ,
+  { useNewUrlParser: true },
+  () => console.log('MongoDB 连接成功了'))
+
+mongoose.connection.on('error', (err) => {
+  console.log(err)
+});
+
+
 
 // 捕获异常
 

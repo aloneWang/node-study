@@ -1,30 +1,40 @@
-let db = [{name:'李磊'}]
+// let db = [{name:'李磊'}]
+
+const User = require('../schema/users')
+
+
 // 将 路由中间件脱离出来管理
 class UsersCtr {
-  getAll(ctx) {
-    ctx.body = db
+  async getAll(ctx) {
+    const data = await User.find()
+    console.log(data)
+    ctx.body = data
   }
   // 查询id
-  findById(ctx){
+  async findById(ctx){
     const id = ctx.params.id
+    const _user = await User.findById(ctx.params.id)
 
-    if(id >= db.length) ctx.throw(401)
-    ctx.body = db[id]
+    if(!_user) ctx.throw(404, '用户名不存在')
+    ctx.body = _user
   }
-  create(ctx){
+  async create(ctx){
 
     ctx.verifyParams({
       name: { type: 'string', required: true },
     });
-
-    db.push(ctx.request.body)
+    const repUser = await User.findOne({...ctx.request.body})
+    console.log(repUser)
+    if(repUser) ctx.throw(409,'用户名已经存在')
+    
+    const _user = new User(ctx.request.body).save()
     ctx.status = 200
     ctx.body = "添加成功"
   }
-  delete(ctx){
-    const id = ctx.params.id
-    if(id >= db.length) ctx.throw(412)
-    db.splice(ctx.params.id,1)
+  async delete(ctx){
+    const user = await User.findByIdAndRemove(ctx.params.id)
+    if(!user) ctx.throw(404,'用户名不存在')
+    
     ctx.status = 200 
     ctx.body = "删除成功"
   }

@@ -1,7 +1,7 @@
 // let db = [{name:'李磊'}]
 const jsonwebtoken = require('jsonwebtoken')
-// 声明一个秘钥
-const secret = 'node-zhihu-secret'
+//秘钥
+const { secret }  = require('../config.js')
 const User = require('../schema/users')
 
 

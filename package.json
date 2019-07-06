@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/aloneWang/node-study#readme",
   "dependencies": {
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.7.0",
     "koa-body": "^4.1.0",
     "koa-parameter": "^3.0.1",

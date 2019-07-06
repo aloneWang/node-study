@@ -1,5 +1,7 @@
 // let db = [{name:'李磊'}]
-
+const jsonwebtoken = require('jsonwebtoken')
+// 声明一个秘钥
+const secret = 'node-zhihu-secret'
 const User = require('../schema/users')
 
 
@@ -22,9 +24,11 @@ class UsersCtr {
 
     ctx.verifyParams({
       name: { type: 'string', required: true },
+      password:{ type: 'string', required: true}
     });
-    const repUser = await User.findOne({...ctx.request.body})
-    console.log(repUser)
+    const name = ctx.request.body.name
+    const repUser = await User.findOne({name})
+
     if(repUser) ctx.throw(409,'用户名已经存在')
     
     const _user = new User(ctx.request.body).save()
@@ -37,6 +41,19 @@ class UsersCtr {
     
     ctx.status = 200 
     ctx.body = "删除成功"
+  }
+  async login(ctx){
+    ctx.verifyParams({
+      name: { type: 'string' ,required: true },
+      password: { type: 'string', required: true }
+    })
+    const _user = User.findOne(ctx.request.body)
+    if(!_user) ctx.throw(401, '用户名或密码不正确')
+    const { _id, name } = _user
+    // 生成签名
+    const token = jsonwebtoken.sign({ _id,name }, secret, { expiresIn: '1d' })
+    ctx.body = { token }
+
   }
 }
 

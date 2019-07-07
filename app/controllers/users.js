@@ -20,6 +20,8 @@ class UsersCtr {
     if(!_user) ctx.throw(404, '用户名不存在')
     ctx.body = _user
   }
+
+  // 注册
   async create(ctx){
 
     ctx.verifyParams({
@@ -35,6 +37,7 @@ class UsersCtr {
     ctx.status = 200
     ctx.body = "添加成功"
   }
+
   async delete(ctx){
     const user = await User.findByIdAndRemove(ctx.params.id)
     if(!user) ctx.throw(404,'用户名不存在')
@@ -55,6 +58,7 @@ class UsersCtr {
     ctx.body = { token }
 
   }
+
 }
 
 module.exports = new UsersCtr()

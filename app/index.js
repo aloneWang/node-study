@@ -1,7 +1,9 @@
 const Koa = require('koa')
-const koaBody = require('koa-body');
+const koaBody = require('koa-body');\
+const koaStatic = require('koa-static');
 const koaPrameter = require('koa-parameter')
 const app = new Koa()
+const path = require('path')
 const routing = require('./routes')
 
 const mongoose = require('mongoose')
@@ -32,6 +34,14 @@ app.use(async ( ctx,next)=>{
 })
 
 app
+  .use(koaStatic(path.join(__dirname, '/public')))
+  .use(koaBody({
+    multipart: true,
+    formidable: {
+      uploadDir: path.join(__dirname, '/publi/uploads'),
+      keepExtensions: true
+    }
+  }))
   .use(koaBody()) // 回去post 请求参数
   .use(koaPrameter(app)) // 验证参数
 routing(app)

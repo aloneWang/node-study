@@ -1,13 +1,14 @@
 const Koa = require('koa')
-const koaBody = require('koa-body');\
-const koaStatic = require('koa-static');
+const koaBody = require('koa-body');
+const koaStatic = require('koa-static')
 const koaPrameter = require('koa-parameter')
+const { checkDirExit, getUpLoadDirname } =  require('./utils')
 const app = new Koa()
 const path = require('path')
 const routing = require('./routes')
 
 const mongoose = require('mongoose')
-
+console.log(checkDirExit)
 // 链接数据库
 mongoose.connect(
   'mongodb://127.0.0.1:27017/zhihu' ,
@@ -38,8 +39,17 @@ app
   .use(koaBody({
     multipart: true,
     formidable: {
-      uploadDir: path.join(__dirname, '/publi/uploads'),
-      keepExtensions: true
+      uploadDir: path.join(__dirname, '/public/uploads'),
+      keepExtensions: true,
+      onFileBegin: (name, file)=> {
+        // console.log(file)
+        // const dir = path.join(__dirname,`/public/uploads/${getUpLoadDirname()}`)
+        const dir = path.join(__dirname,'/public/uploads')
+        checkDirExit(dir)
+      },
+      onError:(err)=>{
+        console.log(err);
+      }
     }
   }))
   .use(koaBody()) // 回去post 请求参数
